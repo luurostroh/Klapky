@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" http-equiv="connection:Keep-Alive">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>WebSocket Example</title>
+</head>
+<body>
+    <h1>WebSocket Control</h1>
+    <form id="controlForm">
+        <label for="input1">Input 1:</label>
+        <input type="number" id="input1" name="input1" min="0" max="90" step="1"><br><br>
+
+        <label for="input2">Input 2:</label>
+        <input type="number" id="input2" name="input2" min="0" max="90" step="1"><br><br>
+
+        <label for="input3">Input 3:</label>
+        <input type="number" id="input3" name="input3" min="0" max="90" step="1"><br><br>
+
+        <button type="button" id="sendButton">Send</button>
+    </form>
+
+    <script>
+        // Create a WebSocket connection
+        const socket = new WebSocket('ws://localhost:8080'); // Replace with your WebSocket server address
+
+        // Log connection status
+        socket.onopen = () => console.log('WebSocket connection established.');
+        socket.onclose = () => console.log('WebSocket connection closed.');
+        socket.onerror = (error) => console.error('WebSocket error:', error);
+
+        // Send data when the button is clicked
+        document.getElementById('sendButton').addEventListener('click', () => {
+            const input1 = document.getElementById('input1').value;
+            const input2 = document.getElementById('input2').value;
+            const input3 = document.getElementById('input3').value;
+
+            const data = {
+                input1: parseInt(input1, 10),
+                input2: parseInt(input2, 10),
+                input3: parseInt(input3, 10)
+            };
+
+            // Send data as JSON
+            socket.send(JSON.stringify(data));
+            console.log('Data sent:', data);
+        });
+    </script>
+</body>
+</html>
